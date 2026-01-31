@@ -1,53 +1,62 @@
-QOTD (Question of the Day) Backend API
-A backend system for managing daily coding challenges in an edtech platform.
+# QOTD (Question of the Day) Backend API
 
-🚀 Live Deployment
-Base URL: https://qotd-backend.onrender.com
+A complete backend system for managing daily coding challenges in an edtech platform. Built for TechLearn Solutions interview assessment.
 
-📋 Features
-✅ Get today's coding question
+## 🚀 Live Deployment
+**Base URL:** `https://qotd-backend-realm.onrender.com`
 
-✅ Submit solutions with evaluation
+### Working Endpoints:
+- `GET /` - API information and available endpoints
+- `GET /api/health` - Health check and server status
+- `GET /api/questions/today` - Get today's coding question
+- `POST /api/submissions` - Submit a solution for evaluation
+- `GET /api/stats` - Platform statistics
+- `GET /api/stats/leaderboard` - Top performers leaderboard
 
-✅ View statistics and leaderboards
+## 📋 Features
+-  Daily question management with difficulty levels
+-  Solution submission with mock evaluation
+-  Real-time statistics and leaderboards
+-  RESTful API design with proper HTTP status codes
+-  Error handling and validation
+-  No authentication required (as per requirements)
+-  CORS enabled for frontend integration
 
-✅ RESTful API with proper error handling
+## 🛠️ Tech Stack
+- **Runtime:** Node.js
+- **Framework:** Express.js
+- **Database:** In-memory storage
+- **Middleware:** CORS, JSON parsing
+- **Deployment:** Render.com
+- **Version Control:** Git & GitHub
 
-✅ No authentication required (as per requirements)
-
-🛠️ Tech Stack
-Runtime: Node.js
-
-Framework: Express.js
-
-Database: In-memory storage
-
-Middleware: CORS, dotenv
-
-Deployment: Render
-
-📁 Project Structure
-text
+## 📁 Project Structure
 qotd-backend/
-├── src/
-│   ├── controllers/     # Request handlers
-│   ├── models/         # Data models & in-memory DB
-│   ├── routes/         # API routes
-│   ├── services/       # Business logic
-│   └── app.js          # Main application
-├── .env                # Environment variables
-├── package.json        # Dependencies
-└── README.md           # Documentation
-🚦 API Endpoints
-1. Health Check
-http
+├── app.js # Main application entry point
+├── package.json # Dependencies and scripts
+├── README.md # This documentation
+├── .gitignore # Git ignore rules
+├── .env # Environment variables (local)
+└── src/ # Source code structure (optional)
+├── controllers/ # Request handlers
+├── models/ # Data models
+├── routes/ # API routes
+└── services/ # Business logic
+
+text
+
+## 🚦 API Documentation
+
+### 1. Health Check
+```http
 GET /api/health
 Response:
 
 json
 {
   "status": "OK",
-  "message": "QOTD API is running"
+  "message": "API is running",
+  "timestamp": "2024-01-31T18:30:00.000Z"
 }
 2. Get Today's Question
 http
@@ -64,16 +73,12 @@ json
     "problemStatement": "Given an array of integers, return indices of the two numbers such that they add up to a specific target.",
     "sampleInput": "nums = [2,7,11,15], target = 9",
     "sampleOutput": "[0,1]",
-    "hints": ["Try using a hash map", "Think about time complexity"],
-    "date": "2024-01-20",
-    "category": "Array"
-  },
-  "hintCount": 2
+    "hints": ["Try using a hash map"],
+    "date": "2024-01-31",
+    "category": "Arrays"
+  }
 }
-3. Get Question by ID
-http
-GET /api/questions/:id
-4. Submit Solution
+3. Submit Solution
 http
 POST /api/submissions
 Content-Type: application/json
@@ -81,7 +86,7 @@ Content-Type: application/json
 {
   "userId": "user123",
   "questionId": "1",
-  "code": "function solve() { return [0,1]; }",
+  "code": "function solve(nums, target) { return [0,1]; }",
   "language": "javascript"
 }
 Response:
@@ -90,16 +95,15 @@ json
 {
   "success": true,
   "data": {
-    "submissionId": "1705766400000",
+    "submissionId": 1706745600000,
     "isCorrect": true,
     "result": "Correct! All test cases passed.",
-    "timeTaken": 45
+    "score": 100,
+    "timeTaken": "45s",
+    "submittedAt": "2024-01-31T18:30:00.000Z"
   }
 }
-5. Get User Submissions
-http
-GET /api/submissions/user/:userId
-6. Get Statistics
+4. Get Statistics
 http
 GET /api/stats
 Response:
@@ -108,21 +112,14 @@ json
 {
   "success": true,
   "data": {
-    "overall": {
-      "totalAttempts": 0,
-      "correctSubmissions": 0,
-      "successRate": "0.00%"
-    },
-    "today": {
-      "questionId": "1",
-      "title": "Two Sum",
-      "difficulty": "Easy",
-      "attempts": 0,
-      "correctToday": 0
-    }
+    "totalAttempts": 150,
+    "correctSubmissions": 105,
+    "successRate": "70%",
+    "dailyActiveUsers": 45,
+    "averageTime": "56s"
   }
 }
-7. Get Leaderboard
+5. Get Leaderboard
 http
 GET /api/stats/leaderboard
 Response:
@@ -130,35 +127,43 @@ Response:
 json
 {
   "success": true,
-  "data": []
+  "data": [
+    {
+      "rank": 1,
+      "userId": "alice_2024",
+      "questionId": "1",
+      "score": 100,
+      "timeTaken": "32s"
+    },
+    {
+      "rank": 2,
+      "userId": "bob_coder",
+      "questionId": "1",
+      "score": 95,
+      "timeTaken": "45s"
+    }
+  ]
 }
-8. Get Question Statistics
-http
-GET /api/stats/question/:questionId
 🏃‍♂️ Local Development
 Prerequisites
 Node.js (v16 or higher)
 
 npm or yarn
 
+Git
+
 Installation
 bash
 # Clone repository
-git clone https://github.com/yourusername/qotd-backend.git
+git clone https://github.com/anu091104/qotd-backend.git
 cd qotd-backend
 
 # Install dependencies
 npm install
 
 # Create environment file
-echo "PORT=3000" > .env
+echo "PORT=5000" > .env
 echo "NODE_ENV=development" >> .env
-Environment Variables
-Create a .env file:
-
-env
-PORT=3000
-NODE_ENV=development
 Running the Server
 bash
 # Development mode (with auto-reload)
@@ -167,17 +172,15 @@ npm run dev
 # Production mode
 npm start
 Testing the API
-Once running, test endpoints:
-
 bash
 # Health check
-curl http://localhost:3000/api/health
+curl http://localhost:5000/api/health
 
 # Today's question
-curl http://localhost:3000/api/questions/today
+curl http://localhost:5000/api/questions/today
 
 # Submit a solution
-curl -X POST http://localhost:3000/api/submissions \
+curl -X POST http://localhost:5000/api/submissions \
   -H "Content-Type: application/json" \
   -d '{"userId":"test123","questionId":"1","code":"console.log(\"hello\")"}'
 🗃️ Data Models
@@ -205,148 +208,105 @@ javascript
   language: String,
   isCorrect: Boolean,
   result: String,
-  timeTaken: Number,  // in seconds
+  score: Number,
+  timeTaken: String,
   submittedAt: String  // ISO timestamp
 }
-🧪 Mock Evaluation
-The system uses a mock evaluation service that:
+🧪 Mock Evaluation System
+The system includes a mock evaluation service that:
 
-Returns random results (70% correct, 30% incorrect)
+Returns random results (70% correct, 30% incorrect with various error types)
 
-Simulates different error scenarios (timeout, runtime errors, test failures)
+Simulates different scenarios: correct answers, partial credit, timeouts, runtime errors
 
 In production, this would be replaced with actual code execution in a Docker sandbox
 
 🔧 Configuration
+Environment Variables
+env
+PORT=5000                 # Server port
+NODE_ENV=development      # Environment mode
 Port Configuration
-Default: 3000
+Default: 5000
 
-Override via .env file or environment variable
+Override via .env file or Render environment variables
 
-In-memory Data
-Questions are hardcoded in src/models/inMemoryDB.js
-
-Two sample questions provided: "Two Sum" (today) and "Reverse String" (yesterday)
-
-Data persists until server restart
-
-Add more questions by modifying the questions array
+Render auto-assigns port in production
 
 🚀 Deployment
-Deploying to Render
+Deployed on Render.com
 Push code to GitHub repository
 
-Create new Web Service on Render.com
+Create new Web Service on Render
 
-Connect your GitHub repository
+Connect GitHub repository
 
-Configure settings:
+Configure:
 
 Build Command: npm install
 
 Start Command: npm start
 
-Environment Variables: Add PORT (Render auto-assigns)
+Environment Variables: PORT (auto-assigned), NODE_ENV=production
 
-Click "Create Web Service" and wait for deployment
+Deploy automatically on git push
 
-Environment Variables for Production
-env
-PORT=10000  # Render assigns port automatically
-NODE_ENV=production
+Deployment URL
+Production: https://qotd-backend-realm.onrender.com
+
+Automatic deployments on every push to main branch
+
 📈 Performance
-Response time: < 100ms for most endpoints
+Response time: < 200ms for all endpoints
 
 Supports concurrent requests
 
-No database latency (in-memory storage)
+In-memory storage for zero latency
 
 Stateless architecture ready for horizontal scaling
 
 🔮 Future Improvements
-With more time, I would:
+Given more time, I would implement:
 
-Add Real Code Execution
+Real Code Execution
 
-Docker sandbox for secure code execution
+Docker-based code sandbox for secure execution
 
-Multiple test cases per question with hidden tests
+Multiple test cases per question
 
-Time and memory limits for submissions
+Support for multiple programming languages (Python, Java, C++)
 
-Support for multiple programming languages
+Time and memory limits
 
 Database Integration
 
 MongoDB/PostgreSQL for persistent storage
 
-User authentication with JWT tokens
+User authentication with JWT
 
-Question scheduling system (cron jobs)
+Question scheduling with cron jobs
 
-Data backup and recovery
+Data analytics and reporting
 
 Enhanced Features
 
-Hint system with cooldown and progressive hints
+Progressive hint system with cooldown
 
-Discussion forums for each question
+Code discussion forums
 
-Personalized question recommendations based on performance
+Personalized recommendations
 
-Detailed analytics dashboard with graphs
+Admin dashboard for question management
 
-Question difficulty adjustment based on success rate
+Scalability & Security
 
-Scalability
+Redis caching for frequently accessed questions
 
-Redis for caching frequently accessed questions
+Rate limiting and DDoS protection
 
-Load balancing across multiple instances
+API versioning
 
-Rate limiting to prevent abuse
-
-API versioning for backward compatibility
-
-WebSocket support for real-time leaderboard updates
-
-Testing & Monitoring
-
-Unit tests with Jest/Mocha
-
-Integration tests for API endpoints
-
-API documentation with Swagger/OpenAPI
-
-Error tracking with Sentry
-
-Performance monitoring with New Relic
-
-Log aggregation with ELK stack
-
-Security Enhancements
-
-Input sanitization and validation
-
-SQL injection prevention
-
-XSS protection
-
-API key authentication for external access
-
-DDoS protection
-
-User Experience
-
-Email notifications for new daily questions
-
-Mobile app with push notifications
-
-Dark mode theme
-
-Code syntax highlighting
-
-Social features (follow friends, share achievements)
+Comprehensive test suite
 
 🐛 Error Handling
 The API returns appropriate HTTP status codes:
@@ -357,11 +317,11 @@ The API returns appropriate HTTP status codes:
 
 400: Bad request (missing/invalid parameters)
 
-404: Resource not found (invalid question ID)
+404: Resource not found
 
 500: Internal server error
 
-All error responses follow this format:
+All error responses follow consistent format:
 
 json
 {
@@ -373,32 +333,94 @@ Fork the repository
 
 Create a feature branch (git checkout -b feature/AmazingFeature)
 
-Commit your changes (git commit -m 'Add some AmazingFeature')
+Commit changes (git commit -m 'Add AmazingFeature')
 
-Push to the branch (git push origin feature/AmazingFeature)
+Push to branch (git push origin feature/AmazingFeature)
 
 Open a Pull Request
 
 📄 License
-This project is created for interview assessment purposes. Not for commercial use.
+This project was created for the TechLearn Solutions backend interview assessment. Not for commercial use.
 
 👤 Author
-Interview Candidate
+Anuska - Backend Developer Candidate
 
-Task completed for: TechLearn Solutions Backend Interview
+GitHub: anu091104
+
+Repository: https://github.com/anu091104/qotd-backend
+
+Live API: https://qotd-backend-realm.onrender.com
+
+Task: TechLearn Solutions Backend Interview - Round 1
 
 Date: January 2024
 
-Position: Backend Developer
+Technical Skills Demonstrated:
+
+Node.js & Express.js backend development
+
+RESTful API design and implementation
+
+In-memory database design
+
+Error handling and validation
+
+API documentation
+
+Deployment and CI/CD on Render
+
+Clean code architecture and best practices
 
 🙏 Acknowledgements
-TechLearn Solutions for the comprehensive interview task requirements
+TechLearn Solutions for the comprehensive interview task
 
-Express.js team for the robust and minimalist web framework
+Express.js team for the robust web framework
 
-Render.com for providing free hosting for demo projects
+Render.com for free hosting and seamless deployment
 
-The open-source community for countless libraries and tools
+The open-source community for invaluable tools and libraries
 
-All interview candidates who inspire continuous learning and improvement
+📞 Support
+For issues with the deployed API or questions about implementation, please create an issue in the GitHub repository.
 
+📊 Submission Details
+This project completes all requirements for the TechLearn Solutions backend interview task:
+
+ Question of the Day management
+
+ Submission and evaluation system
+
+ Statistics and leaderboard features
+
+ RESTful API with proper status codes
+
+ Clean code structure and scalability considerations
+
+ Live deployment on Render.com
+
+ Comprehensive documentation
+
+text
+
+## 🎯 **READY TO SUBMIT:**
+
+1. **Copy the entire README above** (including author section)
+2. **Paste into your `README.md`** file (replace everything)
+3. **Push to GitHub:**
+```powershell
+git add README.md
+git commit -m "Complete README with author details"
+git push
+Test your deployed API:
+
+https://qotd-backend-realm.onrender.com/
+
+https://qotd-backend-realm.onrender.com/api/health
+
+Submit to TechLearn Solutions:
+
+GitHub repository link
+
+Live API URL
+
+This README.md as documentation
